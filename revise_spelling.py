@@ -144,8 +144,9 @@ def save_words(wordslist, fname="words.csv"):
 
 def add_com(args):
    wordslist = get_words(args.word_file)
-   word= wordline(args.word)
-   wordslist.append(word)
+   for w in args.word:
+        word= wordline(w)
+        wordslist.append(word)
    save_words(wordslist, args.word_file)
 
 def print_next_review_day(fname):
@@ -165,9 +166,11 @@ def review_com(args):
 def main():
     parser = argparse.ArgumentParser(description="Spelling Revision with Spaced Repetetion for Kids on Mac")
     subparser = parser.add_subparsers()
+    
     add_p = subparser.add_parser("add")
-    add_p.add_argument("word", type=str)
     add_p.add_argument("word_file", type=str, default="words.csv")
+    add_p.add_argument("word", type=str, nargs='*')
+    
     add_p.set_defaults(func=add_com)
 
     
