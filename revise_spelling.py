@@ -177,7 +177,7 @@ def review_com(args):
         print_next_review_day(args.word_file)
     
 def main():
-    parser = argparse.ArgumentParser(description="Spelling Revision with Spaced Repetetion for Kids on Mac")
+    parser = argparse.ArgumentParser(description="Spelling Revision with Spaced Repetetion for Kids on Mac and windows")
     subparser = parser.add_subparsers()
     
     add_p = subparser.add_parser("add")
