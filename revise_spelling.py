@@ -6,6 +6,21 @@ import time
 
 from datetime import datetime, timedelta
 
+if os.name == "nt":
+    import win32com.client as wincl
+    def _say(sentence, sleepseconds=0.5):
+        try:
+            speaker = wincl.Dispatch("SAPI.SpVoice")
+            speaker.Speak(sentence)
+            time.sleep(sleepseconds)
+        except Exception as ex:
+            print("Error in speaking: ".format(ex.msg))
+else:
+    def _say(sentence, sleepseconds=0.5):
+        os.system("say {0}".format(sentence))
+        time.sleep(sleepseconds)
+
+
 CORRECT_RES = ["Thats Correct", "Correct", "Thats right. Way to go.", "Good Job.", "Excellent", "Thats correct. Good Effort"]
 
 def get_words_to_reveiw(wordlist):
@@ -100,9 +115,7 @@ def do_review_one(word):
         word.update_due_date()
         return word, is_correct
 
-def _say(sentence, sleepseconds=0.5):
-    os.system("say {0}".format(sentence))
-    time.sleep(sleepseconds)
+
 
 def _say_question(word,sleepseconds=0.0):
     _say(word, sleepseconds)
