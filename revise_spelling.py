@@ -28,8 +28,10 @@ class wordline:
 
     
     def increment(self):
-        if self.num <= len(THESHOLDS):
+        if self.num < len(THESHOLDS):
             self.num = self.num + 1
+        else:
+            self.num = len(THESHOLDS)
 
     def decrement(self):
         if self.num >= 0:
@@ -38,7 +40,10 @@ class wordline:
             self.num = 0
     
     def update_due_date(self):
-        self.due_date = datetime.now() + THESHOLDS[self.num]
+        try:
+            self.due_date = datetime.now() + THESHOLDS[self.num]
+        except Exception as ex:
+            self.due_date = datetime.now() + THESHOLDS[self.num-1]
     
     def __repr__(self):
         return "{0} {1} {2} {3}".format(self.word, self.num, self.active, self.due_date)
