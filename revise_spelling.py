@@ -177,8 +177,13 @@ def review_com(args):
     wordslist = get_words(args.word_file)
     sel_words = get_words_to_reveiw(wordslist)
     if sel_words:
-        words_done = do_review(sel_words)
-        save_words(wordslist, args.word_file)
+        try:
+            words_done = do_review(sel_words)
+        except Exception as ex:
+            print(ex)
+            save_words(wordslist, args.word_file)
+            raise
+        print_next_review_day(args.word_file)
     else:
         print_next_review_day(args.word_file)
     
