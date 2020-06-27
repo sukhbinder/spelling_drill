@@ -3,6 +3,7 @@ import numpy as np
 import argparse
 import os
 import time
+import six
 
 from datetime import datetime, timedelta
 
@@ -61,7 +62,7 @@ class wordline:
 
 
 def ask(text):
-    return input(text)
+    return six.moves.input(text)
 
 def confirm(text):
     while True:
