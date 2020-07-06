@@ -3,8 +3,24 @@ import numpy as np
 import argparse
 import os
 import time
+import six
 
 from datetime import datetime, timedelta
+
+if os.name == "nt":
+    import win32com.client as wincl
+    def _say(sentence, sleepseconds=0.5):
+        try:
+            speaker = wincl.Dispatch("SAPI.SpVoice")
+            speaker.Speak(sentence)
+            time.sleep(sleepseconds)
+        except Exception as ex:
+            print("Error in speaking: ".format(ex.msg))
+else:
+    def _say(sentence, sleepseconds=0.5):
+        os.system("say {0}".format(sentence))
+        time.sleep(sleepseconds)
+
 
 CORRECT_RES = ["Thats Correct", "Correct", "Thats right. Way to go.", "Good Job.", "Excellent", "Thats correct. Good Effort"]
 
@@ -51,7 +67,7 @@ class wordline:
 
 
 def ask(text):
-    return input(text)
+    return six.moves.input(text)
 
 def confirm(text):
     while True:
@@ -105,9 +121,7 @@ def do_review_one(word):
         word.update_due_date()
         return word, is_correct, answer_text
 
-def _say(sentence, sleepseconds=0.5):
-    os.system("say {0}".format(sentence))
-    time.sleep(sleepseconds)
+
 
 def _say_question(word,sleepseconds=0.0):
     _say(word, sleepseconds)
@@ -164,13 +178,18 @@ def review_com(args):
     wordslist = get_words(args.word_file)
     sel_words = get_words_to_reveiw(wordslist)
     if sel_words:
-        words_done = do_review(sel_words)
-        save_words(wordslist, args.word_file)
+        try:
+            words_done = do_review(sel_words)
+        except Exception as ex:
+            print(ex)
+            save_words(wordslist, args.word_file)
+            raise
+        print_next_review_day(args.word_file)
     else:
         print_next_review_day(args.word_file)
     
 def main():
-    parser = argparse.ArgumentParser(description="Spelling Revision with Spaced Repetetion for Kids on Mac")
+    parser = argparse.ArgumentParser(description="Spelling Revision with Spaced Repetetion for Kids on Mac and windows")
     subparser = parser.add_subparsers()
     
     add_p = subparser.add_parser("add")
