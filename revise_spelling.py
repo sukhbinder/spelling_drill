@@ -180,6 +180,7 @@ def review_com(args):
     if sel_words:
         try:
             words_done = do_review(sel_words)
+            save_words(wordslist, args.word_file)
         except Exception as ex:
             print(ex)
             save_words(wordslist, args.word_file)
