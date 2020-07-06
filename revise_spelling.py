@@ -103,7 +103,7 @@ def do_review_one(word):
         else:
             word.decrement()
         word.update_due_date()
-        return word, is_correct
+        return word, is_correct, answer_text
 
 def _say(sentence, sleepseconds=0.5):
     os.system("say {0}".format(sentence))
@@ -121,7 +121,7 @@ def do_review(wordslist):
             break
         print("\n{0} words to go. ".format(len(wordslist)))
         word = np.random.choice(wordslist)
-        word_, is_correct = do_review_one(word)
+        word_, is_correct, ans = do_review_one(word)
         if is_correct:
             wordslist.remove(word)
             print('Correct')
@@ -129,7 +129,8 @@ def do_review(wordslist):
         else:
             correct_word = "  ".join(word.word)
             print('Incorrect. The Answer is : %s' % correct_word.upper())
-            _say("Incorrect. The Answer is : ")
+            _say("Incorrect. You spelled {}".format(ans))
+            _say("The Correct Answer is : ")
             _say(correct_word)
         words_done.append(word_)
     
