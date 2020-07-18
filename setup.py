@@ -9,8 +9,9 @@ setup(
     author="sukhbinder",
     author_email="sukh2010@yahoo.com",
     entry_points={
-        'console_scripts': ['revise = revise_spelling:main']
+        'console_scripts': ['revise = revise_spelling.revise_spelling:main']
     },
 
-    install_requires=["pywin32", "pandas"],
+    install_requires=["pandas"],
+    extras_require={"win":["pywin32"]}
 )
