@@ -168,6 +168,7 @@ def add_com(args):
         word= wordline(w)
         wordslist.append(word)
    save_words(wordslist, args.word_file)
+   print("Words {0} added to {1}".format(args.word,args.word_file))
 
 def print_next_review_day(fname):
     df = pd.read_csv(fname, infer_datetime_format=True, parse_dates=["due_date"])
