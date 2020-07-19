@@ -12,6 +12,6 @@ setup(
         'console_scripts': ['revise = revise_spelling.revise_spelling:main']
     },
 
-    install_requires=["pandas"],
-    extras_require={"win":["pywin32"]}
+    install_requires=["pandas",
+    "pywin32 >= 1.0;platform_system=='Windows'"],
 )
