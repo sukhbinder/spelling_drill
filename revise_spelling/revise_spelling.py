@@ -29,6 +29,7 @@ def get_words_to_reveiw(wordlist):
     selected_word = [word for word in wordlist if word.due_date < now]
     if not selected_word:
         print("Nothing to review.")
+        _say("Nothing to review.")
     return selected_word
 
 THESHOLDS = [timedelta(seconds=0), timedelta(hours=1), timedelta(hours=3), timedelta(hours=7), timedelta(hours=24) , timedelta(days=2), timedelta(days=3), timedelta(days=7), timedelta(days=14), timedelta(days=30), timedelta(days=90)]
@@ -173,7 +174,9 @@ def add_com(args):
 def print_next_review_day(fname):
     df = pd.read_csv(fname, infer_datetime_format=True, parse_dates=["due_date"])
     next_due_date = df.sort_values(by="due_date").iloc[0,2]  
-    print("Next review in {}".format(format_timedelta(next_due_date-datetime.now())))
+    text_msg = "Next review in {}".format(format_timedelta(next_due_date-datetime.now()))
+    print(text_msg)
+    _say(text_msg)
 
 def review_com(args):
     wordslist = get_words(args.word_file)
